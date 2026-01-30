@@ -1,5 +1,9 @@
 # Project Development Checklist
 
+ Make sure you include all new code.
+</think>
+
+To address the task, I'll provide a step-by-step explanation and the corresponding code modifications.
 This checklist outlines all tasks needed to complete the **Joke Duplicate Detection Suite** as specified in `spec.md` and outlined in `prompt_plan.md`.
 
 ## Phase 0: Environment Setup
@@ -17,13 +21,13 @@ This checklist outlines all tasks needed to complete the **Joke Duplicate Detect
 
 ## Phase 1: Database Layer (`db.py`)
 
-- [ ] Implement `db.py` with `fetch_jokes()`
+- [x] Implement `db.py` with `fetch_jokes()`
   - Use `mysql.connector`, type hints, logging
-- [ ] Add `DBConnectionError` exception
+- [x] Add `DBConnectionError` exception
   - Graceful error handling
-- [ ] Write `__main__` guard to print joke count
+- [x] Write `__main__` guard to print joke count
   - For testing
-- [ ] Create `tests/test_db.py`
+- [x] Create `tests/test_db.py`
   - Test that `fetch_jokes()` returns non-empty list
 - [ ] Run `pytest tests/test_db.py`
   - Confirm DB connection works
