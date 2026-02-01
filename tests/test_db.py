@@ -20,7 +20,7 @@ except ImportError:
 from db import fetch_jokes, DBConnectionError
 
 
-@pytest.fixture(scope="module")
+# @pytest.fixture(scope="module")
 def db_configured() -> bool:
     """
     Checks whether a live MySQL database is available using the

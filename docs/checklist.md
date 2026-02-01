@@ -1,20 +1,20 @@
 # Project Development Checklist
 
  Make sure you include all new code.
-</think>
 
 To address the task, I'll provide a step-by-step explanation and the corresponding code modifications.
 This checklist outlines all tasks needed to complete the **Joke Duplicate Detection Suite** as specified in `spec.md` and outlined in `prompt_plan.md`.
 
 ## Phase 0: Environment Setup
 
-- [ ] Create Python virtual environment
+- [x] Create Python virtual environment
   - `python3 -m venv .venv`
-- [ ] Activate virtual environment
+- [x] Activate virtual environment
   - `source .venv/bin/activate`
-- [ ] Install dependencies
+- [x] Install dependencies
   - `pip install mysql-connector-python scikit-learn scipy joblib numpy sentence-transformers torch tqdm`
 - [ ] Create `requirements.txt`
+  - `pip list | grep -E "(mysql-connector-python|scikit-learn|scipy|joblib|numpy|sentence-transformers|torch|tqdm)"`
   - Pin exact versions from installed packages
 - [ ] Set up `.env` for DB credentials (optional)
   - Use `python-dotenv` if needed
