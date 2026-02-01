@@ -2,6 +2,7 @@
 ## Project Overview
 This is a joke duplicate detection suite with two pipelines: TF-IDF and sentence-transformer based. The system is designed to detect duplicate jokes using similarity search.
 
+Reference the following documents for all project design details.
 Project specifications: docs/spec.md
 Project checklist: docs/checklist.md
 

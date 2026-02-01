@@ -203,8 +203,8 @@ Do NOT write any other modules yet.
 ## Prompt 4 – Transformer Build Script (`build_tf.py`)
 
 ```text
-You are a Python developer tasked with creating a lightweight MySQL connector module for a joke duplicate‑detection suite.  
-Now build the second pipeline. Write `build_tf.py` that:
+You are a Python developer tasked with creating a lightweight MySQL connector module for a joke duplicate‑detection suite. Read `spec.md` and `AGENTS.md`!
+Now build the second pipeline (Phase 4). Write `build_tf.py` that:
 1. Uses `fetch_jokes` from `db.py` to obtain `ids`, `titles`, `texts`.
 2. Loads `sentence_transformers.SentenceTransformer` with the model name `all-MiniLM-L6-v2`.
 3. Encodes all jokes in batches (batch_size=64) into 384‑dimensional vectors.
@@ -219,13 +219,13 @@ Add a test `tests/test_tf_build.py` that:
 - Runs the build script via `subprocess.run`.
 - Checks that all three artifact files exist.
 - Loads the vectors and verifies shape: (n, 384).
-- Skips if DB connection fails.
+- Skips with informative message if DB connection fails.
 
 Use Python 3.11+, type hints, `logging`.  
 Return only the code for `build_tf.py` and `tests/test_tf_build.py`.  
 Create these files and place them where they should go in the project.
 Test both scripts to ensure they run without errors. If they don’t, iterate on fixes and retest.
-Do NOT create other modules yet.
+Do NOT create other modules/scripts yet.
 ```
 
 ---
@@ -233,7 +233,7 @@ Do NOT create other modules yet.
 ## Prompt 5 – Transformer Search Script (`search_tf.py`)
 
 ```text
-You are a Python developer tasked with creating a lightweight MySQL connector module for a joke duplicate‑detection suite.  
+You are a Python developer tasked with creating a lightweight MySQL connector module for a joke duplicate‑detection suite.  Read `spec.md` and `AGENTS.md`!
 Write `search_tf.py` that:
 1. Accepts a path to a plain‑text joke file.
 2. Loads `tf_vectors.npy`, `tf_ids.npy`, `tf_titles.pkl`.
@@ -241,7 +241,7 @@ Write `search_tf.py` that:
 4. Encodes the query joke.
 5. Computes cosine similarity: `dot(vectors, query_vec) / (norm(vectors, axis=1) * norm(query_vec))`.
 6. Retrieves top‑10 most similar jokes.
-7. Prints a table exactly like the TF‑IDF search: “score   id   title”.
+7. Prints a table exactly like the TF‑IDF search. Reference `spec.md` and `search_tfidf.py`.
 
 Add a test `tests/test_tf_search.py` that:
 - Creates a temporary joke file identical to the first DB joke.
