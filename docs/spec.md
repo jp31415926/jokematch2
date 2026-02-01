@@ -22,7 +22,7 @@
 | Component | Purpose | Output Files |
 |-----------|---------|--------------|
 | `*_build.py` | Pull data, compute feature vectors, and persist to disk | `*_vectorizer.pkl` (TF‑IDF) <br> `*_matrix.npz` (TF‑IDF matrix) <br> `*_ids.pkl`, `*_titles.pkl` (meta) <br> `*_vectors.npy` (Transformer) <br> `*_ids.npy`, `*_titles.pkl` (meta) |
-| `*_search.py` | Load persisted data, encode input joke, rank by similarity, print top‑10 | stdout – “score   id   title” table |
+| `*_search.py` | Load persisted data, encode input joke, rank by similarity, print top‑10 | stdout – “rank score id title” table |
 
 The **search scripts** are *stateless* – they only load data from disk, not from the database.  
 The **build scripts** are *idempotent*: running them again will overwrite the cached files.
@@ -148,9 +148,9 @@ python search_tfidf.py /path/to/joke.txt
    ```python
    import numpy as np
    top_indices = np.argpartition(scores, -10)[-10:][::-1]  # descending
-   print(f"{'score':>6}  {'id':>5}  title")
-   for idx in top_indices:
-       print(f"{scores[idx]:6.4f}  {ids[idx]:5d}  {titles[ids[idx]]}")
+   print(f"{'Rank':<6} {'Score':<10} {'ID':^5}   {'Title':<40}")
+   for rank, idx in enumerate(top_indices, start=1):
+       print(f"{rank:>2}     {scores[idx]:6.4f} {ids[idx]:>5d}   {titles[ids[idx]]:<40}")
    ```
 6. End of script.
 
@@ -212,9 +212,9 @@ python search_tf.py /path/to/joke.txt
 5. **Rank & output** (same table format as TF‑IDF):
    ```python
    top_indices = np.argpartition(scores, -10)[-10:][::-1]
-   print(f"{'score':>6}  {'id':>5}  title")
-   for idx in top_indices:
-       print(f"{scores[idx]:6.4f}  {ids[idx]:5d}  {titles[ids[idx]]}")
+   print(f"{'Rank':<6} {'Score':<10} {'ID':^5}   {'Title':<40}")
+   for rank, idx in enumerate(top_indices, start=1):
+       print(f"{rank:>2}     {scores[idx]:6.4f} {ids[idx]:>5d}   {titles[ids[idx]]:<40}")
    ```
 
 > **Note:** The `SentenceTransformer` loads the model into memory (~ 300 MB) on the first call to `search_tf.py`.  Subsequent calls reuse the same process memory if the script is kept alive (e.g., via a long‑running server), but for a simple CLI you’ll pay that cost each time.
@@ -225,6 +225,9 @@ python search_tf.py /path/to/joke.txt
 
 ```
 project_root/
+├── tests/
+├── docs/
+├── samples/
 ├── db.py
 ├── db_config.py
 ├── tfidf_vectorizer.pkl
@@ -240,7 +243,7 @@ project_root/
 └── search_tf.py
 ```
 
-> You may keep all files in the same directory or organize them under sub‑folders (`tfidf/`, `tf/`) – just adjust the load paths accordingly.
+> Keep all files in the same directory except tests, docs and samples.
 
 ---
 
@@ -255,30 +258,49 @@ python build_tf.py
 
 2. **Search a sample joke**:
 
+Three samples are provided: `samples/test-email1.eml`, 
+`samples/test-email1.eml`,`samples/test-email1.eml`. All three should output something and not fail.
+
 ```bash
 # TF‑IDF
-python search_tfidf.py samples/joke1.txt
+python search_tfidf.py samples/test-email1.eml
+python search_tfidf.py samples/test-email2.eml
+python search_tfidf.py samples/test-email3.eml
 
 # Transformer
-python search_tf.py samples/joke1.txt
+python search_tf.py samples/test-email1.eml
+python search_tf.py samples/test-email2.eml
+python search_tf.py samples/test-email3.eml
 ```
 
-Both scripts will output:
+Both scripts will output results similar to the following:
 
 ```
-score   id   title
-0.8934  104   Why did the chicken cross the road?
-0.7821  523   A classic joke about a chicken…
+Rank   Score       ID     Title
+ 1     0.3463     12628   Why did the chicken cross the road?
+ 2     0.2251        36   A classic joke about a chicken
+ 3     0.1615       521   Top Ten Reasons Eve Was Created
 ...
 ```
+Each column has one space between it and the next column, except between ID and Title, which is 3 spaces. The widths of each column follows:
+| Column | Width |
+|--------|-------|
+| Rank   |   6   |
+| Score  |  10   |
+| ID     |   5   |
+| Title  |  40   |
 
 ---
 
 ## 8.  Extending the Pipeline
 
+Potential features that might be implemented follow.
+
 | Feature | How to Add |
 |---------|------------|
-| **Adjust similarity threshold** | After ranking, filter `scores >= THRESHOLD`.  Add a CLI flag `--threshold 0.85`. |
+| **Duplicate Test** | Instead of ranking, return a single string indicating if the top score is above a given threshold. Add a CLI flag `--threshold 0.85`. |
+| **Database Duplicate Test** | Instead of reading a provided file, use a CLI flag to pass a joke ID that will be compared to all the other jokes in the database. |
+| **Adjust similarity threshold** | After ranking, filter `scores >= THRESHOLD`. Add a CLI flag `--threshold 0.85`. |
 | **Support batch searching** | Accept a directory and loop over each file. |
 | **Persist scores for quick re‑search** | Store a KD‑tree or FAISS index for the transformer vectors. |
 | **Add a quick‑look CLI for the email‑parsing step** | Implement `extract_jokes.py` that reads a `.eml` file, strips headers/HTML, and writes each joke to a temporary file that can be fed to the search scripts. |
@@ -288,7 +310,7 @@ score   id   title
 ## 9.  Testing & Validation
 
 1. **Unit Tests** – Verify that `build_*` scripts produce non‑empty files and that `search_*` return a score ≥ 0 and ≤ 1 for a known joke.
-2. **Accuracy Test** – Create a test set of 50 jokes, run both pipelines, and compare top‑10 lists.  Adjust `min_df`, `ngram_range`, and transformer model if necessary.
+2. **Accuracy Test** – User will provide a test set of 50 jokes. Run both pipelines, and compare top‑10 lists.  Adjust `min_df`, `ngram_range`, and transformer model if necessary.
 3. **Performance Benchmarks** – Measure build time, memory usage, and search latency on the target machine.  Aim for < 5 s for a single search.
 
 ---
@@ -308,9 +330,9 @@ score   id   title
 | Purpose | Command |
 |---------|---------|
 | Build TF‑IDF features | `python build_tfidf.py` |
-| Search with TF‑IDF | `python search_tfidf.py /path/to/joke.txt` |
+| Search with TF‑IDF | `python search_tfidf.py /path/to/joke.eml` |
 | Build Transformer features | `python build_tf.py` |
-| Search with Transformer | `python search_tf.py /path/to/joke.txt` |
+| Search with Transformer | `python search_tf.py /path/to/joke.eml` |
 
 ---
 

@@ -121,11 +121,11 @@ def main():
         
         # Print results table
         #print("score    id     title")
-        print(f"{'Rank':<6} {'Score':<10} {'ID':^5}   Title")
+        print(f"{'Rank':<6} {'Score':<10} {'ID':^5}   {'Title':<40}")
         #for score, joke_id, title in results:
         for rank, (score, joke_id, title) in enumerate(results, start=1):
             #print(f"{score:.4f}   {joke_id}   {title}")
-            print(f"{rank:>2}     {score:<10.4f} {joke_id:>5}   {title}")
+            print(f"{rank:>2}     {score:<10.4f} {joke_id:>5}   {title:<40}")
 
     except Exception as e:
         logger.error(f"Search failed: {e}")

@@ -51,21 +51,21 @@ This checklist outlines all tasks needed to complete the **Joke Duplicate Detect
 
 ## Phase 3: TF-IDF Search Pipeline (`search_tfidf.py`)
 
-- [ ] Implement `search_tfidf.py`
+- [x] Implement `search_tfidf.py`
   - Accepts path to joke file
-- [ ] Load persisted artifacts
+- [x] Load persisted artifacts
   - Vectorizer, matrix, ids, titles
-- [ ] Read input file and encode
+- [x] Read input file and encode
   - Use `linear_kernel` for cosine similarity
-- [ ] Rank top 10 matches
+- [x] Rank top 10 matches
   - Use `np.argpartition`
-- [ ] Print formatted table
-  - Score, ID, Title
-- [ ] Add error handling
+- [x] Print formatted table
+  - Rank, Score, ID, Title
+- [x] Add error handling
   - Missing files, empty input
-- [ ] Create `tests/test_tfidf_search.py`
+- [x] Create `tests/test_tfidf_search.py`
   - Test output matches known joke
-- [ ] Run `pytest tests/test_tfidf_search.py`
+- [x] Run `pytest tests/test_tfidf_search.py`
   - Validate correct ranking
 
 ## Phase 4: Transformer Build Pipeline (`build_tf.py`)

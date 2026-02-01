@@ -58,7 +58,7 @@ def test_tfidf_search():
         output_lines = result.stdout.strip().split('\n')
         
         # Check header line
-        assert output_lines[0] == "score    id     title"
+        assert output_lines[0] == "Rank   Score       ID     Title"
         
         # Check that at least one result was returned
         assert len(output_lines) > 1, "Expected at least one result"
@@ -66,13 +66,14 @@ def test_tfidf_search():
         # Check format of first result
         first_line = output_lines[1]
         parts = first_line.split()
-        assert len(parts) == 3, "Expected 3 columns in result"
-        score = float(parts[0])
-        returned_id = int(parts[1])
-        
-        # Verify score is reasonable (should be > 0)
+        assert len(parts) == 4, "Expected 4 columns in result"
+        rank = int(parts[0])
+        score = float(parts[1])
+        returned_id = int(parts[2])
+        assert rank > 0 and rank < 11, "Rank should between 1-10"
         assert score > 0.0, "Score should be positive"
-        
+        assert returned_id > 0, "ID should be positive"
+
         logger.info("TF-IDF search test passed")
         
     finally:
