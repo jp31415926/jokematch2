@@ -58,7 +58,7 @@ def test_tfidf_search():
         output_lines = result.stdout.strip().split('\n')
         
         # Check header line
-        assert output_lines[0] == "score   id   title"
+        assert output_lines[0] == "score    id     title"
         
         # Check that at least one result was returned
         assert len(output_lines) > 1, "Expected at least one result"

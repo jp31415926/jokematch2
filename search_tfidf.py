@@ -51,36 +51,35 @@ def load_artifacts(artifacts_dir: Path) -> Tuple:
 def search_joke(query_text: str, vectorizer, tfidf_matrix, joke_ids, joke_titles) -> List[Tuple[float, int, str]]:
     """Search for similar jokes using TF-IDF and cosine similarity."""
     try:
-        logger.info(f"len(joke_ids) = {len(joke_ids)}")
-        logger.info(f"len(joke_titles) = {len(joke_titles)}")
-
         # Transform query text to TF-IDF vector
         query_vector = vectorizer.transform([query_text])
-        logger.info(f"query_vector calculated")
         
         # Compute cosine similarities
         similarities = linear_kernel(query_vector, tfidf_matrix).flatten()
-        logger.info(f"similarities calculated")
         
         # Get top 10 most similar jokes (descending order)
         top_indices = similarities.argsort()[::-1][:10]
-        logger.info(f"Found {len(top_indices)} similar jokes")
         
-        # Format results - make sure we handle types properly
+         # Format results - make sure we handle types properly
         results = []
         for i in top_indices:
-            logger.info(f"i = {i}")
+            #logger.info(f"i = {i}")
             score = float(similarities[i])
-            logger.info(f"score = {score}")
+            #logger.info(f"score = {score}")
             joke_id = int(joke_ids[i])  # Properly convert to int
-            logger.info(f"joke_id = {joke_id}")
-            logger.info(f"joke_titles[i] = {len(joke_titles[i] if joke_titles[i] is not None else "")}")
-            title = str(joke_titles[i]) if joke_titles[i] is not None else ""
-            logger.info(f"title = {title}")
+            #logger.info(f"joke_id = {joke_id}")
+            # The index i is the position in the similarity array, but we need to use joke_id as dict key
+            # This fixes the KeyError where numpy.int64 indices don't match dictionary keys
+            try:
+                # This is the correct approach: use joke_id as the dictionary key
+                title = str(joke_titles[joke_id]) if joke_titles[joke_id] is not None else ""
+            except KeyError:
+                # Fallback in case joke_id is not found in titles (shouldn't happen with valid matching)
+                logger.warning(f"joke_id {joke_id} not found in joke_titles, using empty title")
+                title = ""
             results.append((score, joke_id, title))
-            logger.info(f"results now contains {len(results)} results")
             
-        logger.info(f"Found {len(results)} similar jokes")
+        #logger.info(f"Found {len(results)} similar jokes")
         return results
         
     except Exception as e:
@@ -121,10 +120,13 @@ def main():
         results = search_joke(joke_text, vectorizer, tfidf_matrix, joke_ids, joke_titles)
         
         # Print results table
-        print("score   id   title")
-        for score, joke_id, title in results:
-            print(f"{score:.4f}   {joke_id}   {title}")
-            
+        #print("score    id     title")
+        print(f"{'Rank':<6} {'Score':<10} {'ID':^5}   Title")
+        #for score, joke_id, title in results:
+        for rank, (score, joke_id, title) in enumerate(results, start=1):
+            #print(f"{score:.4f}   {joke_id}   {title}")
+            print(f"{rank:>2}     {score:<10.4f} {joke_id:>5}   {title}")
+
     except Exception as e:
         logger.error(f"Search failed: {e}")
         sys.exit(1)

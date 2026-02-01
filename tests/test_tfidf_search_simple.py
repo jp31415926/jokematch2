@@ -49,7 +49,7 @@ def test_tfidf_search_basic():
         if result.returncode == 0:
             logger.info("TF-IDF search script ran successfully")
             # Check that we got output with the right format
-            if "score   id   title" in result.stdout:
+            if "score    id     title" in result.stdout:
                 logger.info("Script produced expected output format")
                 #return True
             else:
