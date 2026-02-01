@@ -56,7 +56,7 @@ The **build scripts** are *idempotent*: running them again will overwrite the ca
 
 ## 3.  Database Access
 
-All scripts will connect using the following config (adjust as needed):
+All scripts will connect using the following config, which will be contained in the `db_config.py` file:
 
 ```python
 DB_CONFIG = {
@@ -91,7 +91,7 @@ python build_tfidf.py
 1. Connect to MySQL, fetch all rows into `rows = [(id, title, funny), …]`.
 2. Extract lists:
    - `ids = [r[0] for r in rows]`
-   - `titles = {r[0]: r[1] for r in rows}`
+   - `titles = {r[1] for r in rows}`
    - `texts = [r[2] for r in rows]`
 3. **Vectorizer**  
    ```python
@@ -225,6 +225,8 @@ python search_tf.py /path/to/joke.txt
 
 ```
 project_root/
+├── db.py
+├── db_config.py
 ├── tfidf_vectorizer.pkl
 ├── tfidf_matrix.npz
 ├── tfidf_ids.pkl

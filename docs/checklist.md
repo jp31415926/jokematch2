@@ -29,24 +29,24 @@ This checklist outlines all tasks needed to complete the **Joke Duplicate Detect
   - For testing
 - [x] Create `tests/test_db.py`
   - Test that `fetch_jokes()` returns non-empty list
-- [ ] Run `pytest tests/test_db.py`
+- [x] Run `pytest tests/test_db.py`
   - Confirm DB connection works
 
 ## Phase 2: TF-IDF Build Pipeline (`build_tfidf.py`)
 
-- [ ] Implement `build_tfidf.py`
+- [x] Implement `build_tfidf.py`
   - Import `db.fetch_jokes()`
-- [ ] Instantiate `TfidfVectorizer` with spec settings
+- [x] Instantiate `TfidfVectorizer` with spec settings
   - `stop_words='english'`, `lowercase=True`, `ngram_range=(1,2)`, `min_df=2`, `max_features=50000`
-- [ ] Fit vectorizer and transform texts
+- [x] Fit vectorizer and transform texts
   - Save sparse matrix
-- [ ] Persist artifacts: `tfidf_vectorizer.pkl`, `tfidf_matrix.npz`, `tfidf_ids.pkl`, `tfidf_titles.pkl`
+- [x] Persist artifacts: `tfidf_vectorizer.pkl`, `tfidf_matrix.npz`, `tfidf_ids.pkl`, `tfidf_titles.pkl`
   - Use `joblib`, `scipy.sparse`, `pickle`
-- [ ] Print success message
+- [x] Print success message
   - "TF-IDF build finished: <n> jokes."
-- [ ] Create `tests/test_tfidf_build.py`
+- [x] Create `tests/test_tfidf_build.py`
   - Test artifact existence, shape, idempotency
-- [ ] Run `pytest tests/test_tfidf_build.py`
+- [x] Run `pytest tests/test_tfidf_build.py`
   - Verify artifacts are created correctly
 
 ## Phase 3: TF-IDF Search Pipeline (`search_tfidf.py`)

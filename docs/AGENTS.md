@@ -2,9 +2,12 @@
 ## Project Overview
 This is a joke duplicate detection suite with two pipelines: TF-IDF and sentence-transformer based. The system is designed to detect duplicate jokes using similarity search.
 
+Project specifications: docs/spec.md
+Project checklist: docs/checklist.md
+
 # Build/Lint/Test Commands
 
-# Setup
+## Setup
 ```
 # Create virtual environment
 python3 -m venv .venv
@@ -14,7 +17,7 @@ source .venv/bin/activate
 ```
 pip install mysql-connector-python scikit-learn scipy joblib numpy sentence-transformers torch tqdm
 ```
-# Running Tests
+## Running Tests
 ```
 ## Run all tests
 pytest

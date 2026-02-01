@@ -112,7 +112,7 @@ Copy them one by one into your LLM; it will generate the requested code and test
 ```text
 You are a Python developer tasked with creating a lightweight MySQL connector module for a joke duplicate‑detection suite.  
 The module must provide a single function `fetch_jokes()` that returns a list of tuples `(id, title, funny)` from the `archives` table.  
-Use the database configuration provided in the specification:
+Use the database configuration provided in the specification, but put this in it's own file called `db_config.py`.
 
 DB_CONFIG = {
     'host': 'localhost',
@@ -142,7 +142,7 @@ Do NOT write any code for other modules yet.
 ## Prompt 2 – TF‑IDF Build Script (`build_tfidf.py`)
 
 ```text
-Continuing from the previous `db.py` module, now write a script `build_tfidf.py` that:
+cContinuing from the previous `db.py` module, now write a script `build_tfidf.py` that:
 1. Imports `fetch_jokes` from `db.py`.
 2. Pulls all rows: `ids`, `titles` (dict mapping id → title), and `texts` (list of funny jokes).
 3. Builds a `TfidfVectorizer` with these settings:
@@ -165,8 +165,9 @@ Continuing from the previous `db.py` module, now write a script `build_tfidf.py`
    - Loads the vectorizer and matrix; checks that the matrix shape matches the number of jokes and vectorizer’s feature count.
    - Skips the test if the database connection fails.
 
-Use Python 3.11+ syntax, `typing`, `logging`.  
-Return only the code for `build_tfidf.py` and `tests/test_tfidf_build.py`.  
+Use Python 3.11+ syntax, `typing`, `logging`.
+Return only the code for `build_tfidf.py` and `tests/test_tfidf_build.py`.
+Create these files and place them where they should go in the project.
 Do NOT create other modules yet.
 ```
 
@@ -175,6 +176,7 @@ Do NOT create other modules yet.
 ## Prompt 3 – TF‑IDF Search Script (`search_tfidf.py`)
 
 ```text
+You are a Python developer tasked with creating a lightweight MySQL connector module for a joke duplicate‑detection suite.  
 Using the artifacts from the previous build, write a search script `search_tfidf.py` that:
 1. Accepts a single positional argument: path to a plain‑text file containing a new joke.
 2. Loads the persisted TF‑IDF vectorizer, matrix, ids, and titles.
@@ -192,6 +194,7 @@ Add a test `tests/test_tfidf_search.py` that:
 
 Use Python 3.11+ syntax, type hints, `logging`.  
 Return only the code for `search_tfidf.py` and `tests/test_tfidf_search.py`.  
+Create these files and place them where they should go in the project.
 Do NOT write any other modules yet.
 ```
 
