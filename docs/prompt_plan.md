@@ -203,6 +203,7 @@ Do NOT write any other modules yet.
 ## Prompt 4 – Transformer Build Script (`build_tf.py`)
 
 ```text
+You are a Python developer tasked with creating a lightweight MySQL connector module for a joke duplicate‑detection suite.  
 Now build the second pipeline. Write `build_tf.py` that:
 1. Uses `fetch_jokes` from `db.py` to obtain `ids`, `titles`, `texts`.
 2. Loads `sentence_transformers.SentenceTransformer` with the model name `all-MiniLM-L6-v2`.
@@ -222,7 +223,9 @@ Add a test `tests/test_tf_build.py` that:
 
 Use Python 3.11+, type hints, `logging`.  
 Return only the code for `build_tf.py` and `tests/test_tf_build.py`.  
-Do NOT write the search script yet.
+Create these files and place them where they should go in the project.
+Test both scripts to ensure they run without errors. If they don’t, iterate on fixes and retest.
+Do NOT create other modules yet.
 ```
 
 ---
@@ -230,6 +233,7 @@ Do NOT write the search script yet.
 ## Prompt 5 – Transformer Search Script (`search_tf.py`)
 
 ```text
+You are a Python developer tasked with creating a lightweight MySQL connector module for a joke duplicate‑detection suite.  
 Write `search_tf.py` that:
 1. Accepts a path to a plain‑text joke file.
 2. Loads `tf_vectors.npy`, `tf_ids.npy`, `tf_titles.pkl`.
@@ -247,6 +251,8 @@ Add a test `tests/test_tf_search.py` that:
 
 Use Python 3.11+, type hints, `logging`.  
 Return only the code for `search_tf.py` and `tests/test_tf_search.py`.  
+Create these files and place them where they should go in the project.
+Test both scripts to ensure they run without errors. If they don’t, iterate on fixes and retest.
 Do NOT create the CLI wrapper yet.
 ```
 
@@ -255,6 +261,7 @@ Do NOT create the CLI wrapper yet.
 ## Prompt 6 – Unified CLI Wrapper (`cli.py`)
 
 ```text
+You are a Python developer tasked with creating a lightweight MySQL connector module for a joke duplicate‑detection suite.  
 Create a single entry‑point script `cli.py` that:
 1. Uses `argparse` to provide two mutually exclusive sub‑commands:
    - `build --tfidf` → runs `build_tfidf.py` logic (you can import the function from that module if you refactor it).
