@@ -13,7 +13,7 @@ This checklist outlines all tasks needed to complete the **Joke Duplicate Detect
   - `source .venv/bin/activate`
 - [x] Install dependencies
   - `pip install mysql-connector-python scikit-learn scipy joblib numpy sentence-transformers torch tqdm`
-- [ ] Create `requirements.txt`
+- [x] Create `requirements.txt`
   - `pip list | grep -E "(mysql-connector-python|scikit-learn|scipy|joblib|numpy|sentence-transformers|torch|tqdm)"`
   - Pin exact versions from installed packages
 - [ ] Set up `.env` for DB credentials (optional)
