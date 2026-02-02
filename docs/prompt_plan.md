@@ -203,7 +203,7 @@ Do NOT write any other modules yet.
 ## Prompt 4 – Transformer Build Script (`build_tf.py`)
 
 ```text
-You are a Python developer tasked with creating a lightweight MySQL connector module for a joke duplicate‑detection suite. Read `spec.md` and `AGENTS.md`!
+You are a Python developer tasked with creating a lightweight MySQL connector module for a joke duplicate‑detection suite. Read `docs/spec.md` and `docs/AGENTS.md`!
 Now build the second pipeline (Phase 4). Write `build_tf.py` that:
 1. Uses `fetch_jokes` from `db.py` to obtain `ids`, `titles`, `texts`.
 2. Loads `sentence_transformers.SentenceTransformer` with the model name `all-MiniLM-L6-v2`.
@@ -221,7 +221,8 @@ Add a test `tests/test_tf_build.py` that:
 - Loads the vectors and verifies shape: (n, 384).
 - Skips with informative message if DB connection fails.
 
-Use Python 3.11+, type hints, `logging`.  
+The current directory is `/mnt/c/work/jokematch2/`. This is the base of the project. All filenames are relative to that path if they don't begin with a `/` character.
+Use Python 3.11+, type hints, `logging`.
 Return only the code for `build_tf.py` and `tests/test_tf_build.py`.  
 Create these files and place them where they should go in the project.
 Test both scripts to ensure they run without errors. If they don’t, iterate on fixes and retest.
@@ -233,7 +234,7 @@ Do NOT create other modules/scripts yet.
 ## Prompt 5 – Transformer Search Script (`search_tf.py`)
 
 ```text
-You are a Python developer tasked with creating a lightweight MySQL connector module for a joke duplicate‑detection suite.  Read `spec.md` and `AGENTS.md`!
+You are a Python developer tasked with creating a lightweight MySQL connector module for a joke duplicate‑detection suite. Read `docs/spec.md` and `docs/AGENTS.md`!
 Write `search_tf.py` that:
 1. Accepts a path to a plain‑text joke file.
 2. Loads `tf_vectors.npy`, `tf_ids.npy`, `tf_titles.pkl`.
@@ -249,6 +250,7 @@ Add a test `tests/test_tf_search.py` that:
 - Parses stdout; verifies the first result’s score is ≥0.95 and id matches the expected id.
 - Skips if artifacts missing or DB not reachable.
 
+The current directory is `/mnt/c/work/jokematch2/`. This is the base of the project. All filenames are relative to that path if they don't begin with a `/` character.
 Use Python 3.11+, type hints, `logging`.  
 Return only the code for `search_tf.py` and `tests/test_tf_search.py`.  
 Create these files and place them where they should go in the project.

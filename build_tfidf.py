@@ -59,8 +59,9 @@ def main() -> None:
     tfidf_matrix = vectorizer.fit_transform(texts)
 
     # Save artifacts
-    output_dir = Path(".")
-    
+    output_dir = Path("data")
+    output_dir.mkdir(exist_ok=True)
+
     joblib.dump(vectorizer, output_dir / "tfidf_vectorizer.pkl")
     sparse.save_npz(output_dir / "tfidf_matrix.npz", tfidf_matrix)
     with open(output_dir / "tfidf_ids.pkl", "wb") as f:

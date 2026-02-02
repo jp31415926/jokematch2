@@ -121,7 +121,7 @@ def main():
         
         # Print results table
         #print("score    id     title")
-        print(f"{'Rank':<6} {'Score':<10} {'ID':^5}   {'Title':<40}")
+        print(f"{'Rank':<6} {'Score':<10} {'ID':^5}   Title")
         #for score, joke_id, title in results:
         for rank, (score, joke_id, title) in enumerate(results, start=1):
             #print(f"{score:.4f}   {joke_id}   {title}")

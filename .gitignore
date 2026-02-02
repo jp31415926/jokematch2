@@ -4,8 +4,7 @@ __pycache__/
 *$py.class
 
 # specific to project temp files
-*.pkl
-*.npz
+data/
 
 # C extensions
 *.so

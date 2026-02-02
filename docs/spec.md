@@ -108,10 +108,10 @@ python build_tfidf.py
 4. **Persist**  
    ```python
    import joblib, pickle, scipy.sparse
-   joblib.dump(vectorizer, 'tfidf_vectorizer.pkl')
-   scipy.sparse.save_npz('tfidf_matrix.npz', tfidf_matrix)
-   with open('tfidf_ids.pkl', 'wb') as f: pickle.dump(ids, f)
-   with open('tfidf_titles.pkl', 'wb') as f: pickle.dump(titles, f)
+   joblib.dump(vectorizer, 'data/tfidf_vectorizer.pkl')
+   scipy.sparse.save_npz('data/tfidf_matrix.npz', tfidf_matrix)
+   with open('data/tfidf_ids.pkl', 'wb') as f: pickle.dump(ids, f)
+   with open('data/tfidf_titles.pkl', 'wb') as f: pickle.dump(titles, f)
    ```
 5. Print “TF‑IDF build finished: <n rows> jokes”.
 
@@ -125,10 +125,10 @@ python search_tfidf.py /path/to/joke.txt
 
 1. **Load**:
    ```python
-   vectorizer = joblib.load('tfidf_vectorizer.pkl')
-   tfidf_matrix = scipy.sparse.load_npz('tfidf_matrix.npz')
-   with open('tfidf_ids.pkl', 'rb') as f: ids = pickle.load(f)
-   with open('tfidf_titles.pkl', 'rb') as f: titles = pickle.load(f)
+   vectorizer = joblib.load('data/tfidf_vectorizer.pkl')
+   tfidf_matrix = scipy.sparse.load_npz('data/tfidf_matrix.npz')
+   with open('data/tfidf_ids.pkl', 'rb') as f: ids = pickle.load(f)
+   with open('data/tfidf_titles.pkl', 'rb') as f: titles = pickle.load(f)
    ```
 2. **Read input file** (plain text).  
    ```python
@@ -148,7 +148,7 @@ python search_tfidf.py /path/to/joke.txt
    ```python
    import numpy as np
    top_indices = np.argpartition(scores, -10)[-10:][::-1]  # descending
-   print(f"{'Rank':<6} {'Score':<10} {'ID':^5}   {'Title':<40}")
+   print(f"{'Rank':<6} {'Score':<10} {'ID':^5}   Title")
    for rank, idx in enumerate(top_indices, start=1):
        print(f"{rank:>2}     {scores[idx]:6.4f} {ids[idx]:>5d}   {titles[ids[idx]]:<40}")
    ```
@@ -178,9 +178,9 @@ python build_tf.py
 3. **Persist**:
    ```python
    import numpy as np, pickle
-   np.save('tf_vectors.npy', vectors)        # shape (n, 384)
-   np.save('tf_ids.npy', np.array(ids))      # shape (n,)
-   with open('tf_titles.pkl', 'wb') as f: pickle.dump(titles, f)
+   np.save('data/tf_vectors.npy', vectors)        # shape (n, 384)
+   np.save('data/tf_ids.npy', np.array(ids))      # shape (n,)
+   with open('data/tf_titles.pkl', 'wb') as f: pickle.dump(titles, f)
    ```
 4. Print “Transformer build finished: <n rows> jokes”.
 
@@ -195,9 +195,9 @@ python search_tf.py /path/to/joke.txt
 1. **Load**:
    ```python
    model = SentenceTransformer('all-MiniLM-L6-v2')
-   vectors = np.load('tf_vectors.npy')
-   ids = np.load('tf_ids.npy')
-   with open('tf_titles.pkl', 'rb') as f: titles = pickle.load(f)
+   vectors = np.load('data/tf_vectors.npy')
+   ids = np.load('data/tf_ids.npy')
+   with open('data/tf_titles.pkl', 'rb') as f: titles = pickle.load(f)
    ```
 2. **Read input** file (plain text).
 3. **Encode query**:
@@ -212,7 +212,7 @@ python search_tf.py /path/to/joke.txt
 5. **Rank & output** (same table format as TF‑IDF):
    ```python
    top_indices = np.argpartition(scores, -10)[-10:][::-1]
-   print(f"{'Rank':<6} {'Score':<10} {'ID':^5}   {'Title':<40}")
+   print(f"{'Rank':<6} {'Score':<10} {'ID':^5}   Title")
    for rank, idx in enumerate(top_indices, start=1):
        print(f"{rank:>2}     {scores[idx]:6.4f} {ids[idx]:>5d}   {titles[ids[idx]]:<40}")
    ```
@@ -225,9 +225,10 @@ python search_tf.py /path/to/joke.txt
 
 ```
 project_root/
-├── tests/
+├── data/
 ├── docs/
 ├── samples/
+├── tests/
 ├── db.py
 ├── db_config.py
 ├── tfidf_vectorizer.pkl
@@ -243,7 +244,7 @@ project_root/
 └── search_tf.py
 ```
 
-> Keep all files in the same directory except tests, docs and samples.
+> Keep all files in the same directory except tests, docs, data and samples.
 
 ---
 
@@ -258,8 +259,7 @@ python build_tf.py
 
 2. **Search a sample joke**:
 
-Three samples are provided: `samples/test-email1.eml`, 
-`samples/test-email1.eml`,`samples/test-email1.eml`. All three should output something and not fail.
+Three samples are provided: `samples/test-email1.eml`, `samples/test-email1.eml`, `samples/test-email1.eml`. All three should output something and not fail.
 
 ```bash
 # TF‑IDF
