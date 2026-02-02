@@ -39,8 +39,8 @@ def build_transformer_pipeline() -> int:
         model = SentenceTransformer('all-MiniLM-L6-v2')
         
         # Encode all jokes in batches
-        logger.info(f"Encoding {len(texts)} jokes in batches of 64...")
-        batch_size = 64
+        batch_size = 128
+        logger.info(f"Encoding {len(texts)} jokes in batches of {batch_size}...")
         vectors = []
         
         for i in range(0, len(texts), batch_size):
@@ -58,7 +58,7 @@ def build_transformer_pipeline() -> int:
         logger.info("Persisting artifacts...")
         output_dir = Path("data")
         output_dir.mkdir(exist_ok=True)
-        
+
         # Save vectors
         np.save(output_dir / "tf_vectors.npy", vectors)
         
