@@ -15,23 +15,25 @@ logger = logging.getLogger(__name__)
 
 def test_tfidf_search_basic():
     """Basic test to ensure the script runs without crashing."""
-    # Check if artifacts files exist 
+    # Check if artifacts files exist (they should be in the project data directory)
+    artifact_dir = Path("data")
+
     required_files = [
-        "tfidf_vectorizer.pkl",
-        "tfidf_matrix.npz", 
-        "tfidf_ids.pkl",
-        "tfidf_titles.pkl"
+        artifact_dir / "tfidf_vectorizer.pkl",
+        artifact_dir / "tfidf_matrix.npz", 
+        artifact_dir / "tfidf_ids.pkl",
+        artifact_dir / "tfidf_titles.pkl"
     ]
     
     for file in required_files:
         if not Path(file).exists():
-            logger.warning(f"Artifact file not found: {file}")
-            return False
+            logger.warning(f"Artifact file not found: {file}, skipping test")
+            pytest.skip(f"Artifact file not found: {file}")
     
     # Create a simple joke file
     joke_text = "Why don't scientists trust atoms?\nBecause they make up everything!"
     
-    with tempfile.NamedTemporaryFile(mode="w", suffix=".txt", delete=False) as f:
+    with tempfile.NamedTemporaryFile(mode="w", dir="data/", suffix=".txt", delete=False) as f:
         f.write(joke_text)
         temp_file = f.name
     

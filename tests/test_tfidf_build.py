@@ -36,7 +36,7 @@ def test_tfidf_build():
     assert result.returncode == 0, f"Build script failed: {result.stderr}"
 
     # Check that all four artifact files were created
-    output_dir = Path(".")
+    output_dir = Path("data")
     assert (output_dir / "tfidf_vectorizer.pkl").exists()
     assert (output_dir / "tfidf_matrix.npz").exists()
     assert (output_dir / "tfidf_ids.pkl").exists()

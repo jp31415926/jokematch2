@@ -95,8 +95,7 @@ def main():
     
     try:
         # Find artifacts directory - look in project root
-        script_dir = Path(__file__).parent
-        artifacts_dir = script_dir  # Changed from script_dir / "artifacts" to just script_dir
+        artifacts_dir = Path("data")  # artifacts located in data directory
         
         logger.info(f"Loading artifacts from {artifacts_dir}")
         vectorizer, tfidf_matrix, joke_ids, joke_titles = load_artifacts(artifacts_dir)
