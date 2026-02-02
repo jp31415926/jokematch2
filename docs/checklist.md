@@ -40,7 +40,7 @@ This checklist outlines all tasks needed to complete the **Joke Duplicate Detect
   - `stop_words='english'`, `lowercase=True`, `ngram_range=(1,2)`, `min_df=2`, `max_features=50000`
 - [x] Fit vectorizer and transform texts
   - Save sparse matrix
-- [x] Persist artifacts: `tfidf_vectorizer.pkl`, `tfidf_matrix.npz`, `tfidf_ids.pkl`, `tfidf_titles.pkl`
+- [x] Persist artifacts: `data/tfidf_vectorizer.pkl`, `data/tfidf_matrix.npz`, `data/tfidf_ids.pkl`, `data/tfidf_titles.pkl`
   - Use `joblib`, `scipy.sparse`, `pickle`
 - [x] Print success message
   - "TF-IDF build finished: <n> jokes."
@@ -70,19 +70,19 @@ This checklist outlines all tasks needed to complete the **Joke Duplicate Detect
 
 ## Phase 4: Transformer Build Pipeline (`build_tf.py`)
 
-- [ ] Implement `build_tf.py`
+- [x] Implement `build_tf.py`
   - Use `fetch_jokes()`
-- [ ] Load `SentenceTransformer('all-MiniLM-L6-v2')`
+- [x] Load `SentenceTransformer('all-MiniLM-L6-v2')`
   - Batch size = 64
-- [ ] Encode all jokes
+- [x] Encode all jokes
   - Save vectors as numpy array
-- [ ] Persist artifacts: `tf_vectors.npy`, `tf_ids.npy`, `tf_titles.pkl`
+- [x] Persist artifacts: `data/tf_vectors.npy`, `data/tf_ids.npy`, `data/tf_titles.pkl`
   - Use `numpy.save`, `pickle`
-- [ ] Print success message
+- [x] Print success message
   - "Transformer build finished: <n> jokes."
-- [ ] Create `tests/test_tf_build.py`
+- [x] Create `tests/test_tf_build.py`
   - Test artifact existence, shape
-- [ ] Run `pytest tests/test_tf_build.py`
+- [x] Run `pytest tests/test_tf_build.py`
   - Confirm build works
 
 ## Phase 5: Transformer Search Pipeline (`search_tf.py`)
