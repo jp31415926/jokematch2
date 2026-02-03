@@ -1,4 +1,4 @@
 #!/usr/bin/bash
 
-rm -rf __pycache__ .pytest_cache data tests/__pycache__
-rm tfidf_ids.pkl tfidf_matrix.npz tfidf_titles.pkl tfidf_vectorizer.pkl
+rm -vrf __pycache__ .pytest_cache data tests/__pycache__ data
+rm -vf `find . -path "./.venv" -prune -o -name "*~" -print`

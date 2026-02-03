@@ -5,6 +5,7 @@ __pycache__/
 
 # specific to project temp files
 data/
+*~
 
 # C extensions
 *.so
