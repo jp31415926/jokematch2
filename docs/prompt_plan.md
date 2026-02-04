@@ -142,7 +142,7 @@ Do NOT write any code for other modules yet.
 ## Prompt 2 – TF‑IDF Build Script (`build_tfidf.py`)
 
 ```text
-cContinuing from the previous `db.py` module, now write a script `build_tfidf.py` that:
+Continuing from the previous `db.py` module, now write a script `build_tfidf.py` that:
 1. Imports `fetch_jokes` from `db.py`.
 2. Pulls all rows: `ids`, `titles` (dict mapping id → title), and `texts` (list of funny jokes).
 3. Builds a `TfidfVectorizer` with these settings:
