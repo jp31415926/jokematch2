@@ -10,7 +10,7 @@ from pathlib import Path
 from typing import List, Tuple
 
 import joblib
-import numpy as np
+#import numpy as np
 from scipy.sparse import load_npz
 from sklearn.metrics.pairwise import linear_kernel
 
@@ -90,12 +90,26 @@ def main():
     """Main function to handle CLI arguments and execute search."""
     parser = argparse.ArgumentParser(description="Search for similar jokes using TF-IDF")
     parser.add_argument("joke_file", help="Path to a plain-text file containing a new joke")
+    # Optional directory for the persisted TF-IDF artifacts
+    parser.add_argument(
+        "-a",
+        "--artifacts-dir",
+        default="data",
+        help="Directory where the TF-IDF artifacts are stored (default: data)",
+    )
+    # Flag to output only the best match in a single line
+    parser.add_argument(
+        "-1",
+        "--one-line",
+        action="store_true",
+        help="Print only the first (best) match in a single line",
+    )
     
     args = parser.parse_args()
     
     try:
-        # Find artifacts directory - look in project root
-        artifacts_dir = Path("data")  # artifacts located in data directory
+        # Load artifacts from the directory supplied by the user (default: data)
+        artifacts_dir = Path(args.artifacts_dir)
         
         logger.info(f"Loading artifacts from {artifacts_dir}")
         vectorizer, tfidf_matrix, joke_ids, joke_titles = load_artifacts(artifacts_dir)
@@ -119,12 +133,18 @@ def main():
         results = search_joke(joke_text, vectorizer, tfidf_matrix, joke_ids, joke_titles)
         
         # Print results table
-        #print("score    id     title")
-        print(f"{'Rank':<6} {'Score':<10} {'ID':^5}   Title")
-        #for score, joke_id, title in results:
-        for rank, (score, joke_id, title) in enumerate(results, start=1):
-            #print(f"{score:.4f}   {joke_id}   {title}")
-            print(f"{rank:>2}     {score:<10.4f} {joke_id:>5}   {title:<40}")
+        if args.one_line:
+            # Only output the top match
+            if results:
+                score, joke_id, title = results[0]
+                print(f"{int(score * 100.0)} {joke_id} {title}")
+        else:
+            # Full table
+            print(f"{'Rank':<6} {'Score':<10} {'ID':^5}   Title")
+            #for score, joke_id, title in results:
+            for rank, (score, joke_id, title) in enumerate(results, start=1):
+                #print(f"{score:.4f}   {joke_id}   {title}")
+                print(f"{rank:>2}     {score:<10.4f} {joke_id:>5}   {title:<40}")
 
     except Exception as e:
         logger.error(f"Search failed: {e}")
