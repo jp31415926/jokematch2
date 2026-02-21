@@ -15,7 +15,8 @@ from scipy.sparse import load_npz
 from sklearn.metrics.pairwise import linear_kernel
 
 # Configure logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.WARNING, format='%(asctime)s %(levelname)s %(name)s:%(message)s',
+                    datefmt='%Y-%m-%d %H:%M:%S')
 logger = logging.getLogger(__name__)
 
 def load_artifacts(artifacts_dir: Path) -> Tuple:
@@ -127,7 +128,7 @@ def main():
             logger.error("Input joke file is empty")
             sys.exit(1)
             
-        logger.info(f"Searching for: {joke_text[:50]}...")
+        logger.info(f"Searching for: {joke_text[:50]}")
         
         # Perform search
         results = search_joke(joke_text, vectorizer, tfidf_matrix, joke_ids, joke_titles)
