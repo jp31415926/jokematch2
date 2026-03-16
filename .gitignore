@@ -1,11 +1,12 @@
+# specific to project temp files
+data/
+*~
+db_config.py
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
 *$py.class
-
-# specific to project temp files
-data/
-*~
 
 # C extensions
 *.so
